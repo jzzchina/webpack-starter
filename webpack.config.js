@@ -1,13 +1,13 @@
 // webpack.config.js
 const path = require('path');
-
-process.traceDeprecation = true;    //显示详细错误
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: path.join(__dirname, "/src/js/index.js"), // 入口文件
+    entry: path.join(__dirname, "/src/js/index.js"),
     output: {
-        path: path.join( __dirname, "/dist"), //打包后的文件存放的地方
-        filename: "bundle.js" //打包后输出文件的文件名
+        path: path.join( __dirname, "/dist"),
+        filename: "bundle.js"
     },
     devServer: {
         contentBase: "./dist",
@@ -31,5 +31,11 @@ module.exports = {
                 }]
             },
         ]
-    }
+    },
+    plugins: [
+        new webpack.BannerPlugin('Webpack demo banner'),    //Adds a banner to the top of each generated chunk
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, "/src/index.template.html")
+        })
+    ]
 }
