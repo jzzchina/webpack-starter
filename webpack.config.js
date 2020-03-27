@@ -41,5 +41,6 @@ module.exports = {
         new CleanWebpackPlugin({
             cleanAfterEveryBuildPatterns: ['dist']
         }),
+        new webpack.HotModuleReplacementPlugin()
     ]
 }
