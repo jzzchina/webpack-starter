@@ -2,6 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: path.join(__dirname, "/src/js/index.js"),
@@ -36,6 +37,9 @@ module.exports = {
         new webpack.BannerPlugin('Webpack demo banner'),    //Adds a banner to the top of each generated chunk
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "/src/index.template.html")
-        })
+        }),
+        new CleanWebpackPlugin({
+            cleanAfterEveryBuildPatterns: ['dist']
+        }),
     ]
 }
