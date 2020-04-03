@@ -10,14 +10,6 @@ module.exports = {
         path: path.join( __dirname, "/dist"),
         filename: "bundle.js"
     },
-    devServer: {
-        contentBase: "./dist",
-        port: "8088",
-        inline: true,
-        historyApiFallback: true,
-    },
-    mode: 'development',
-    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -38,9 +30,5 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "/src/index.template.html")
         }),
-        new CleanWebpackPlugin({
-            cleanAfterEveryBuildPatterns: ['dist']
-        }),
-        new webpack.HotModuleReplacementPlugin()
     ]
 }
