@@ -2,13 +2,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     entry: path.join(__dirname, "/src/js/index.js"),
     output: {
         path: path.join( __dirname, "/dist"),
-        filename: "bundle.js"
+        filename: "js/[name]-bundle.js"
     },
     module: {
         rules: [
@@ -16,9 +16,11 @@ module.exports = {
                 test: /\.(sc|c|sa)ss$/,
                 use: [
                 {
-                    loader: "style-loader"
+                    loader: MiniCssExtractPlugin.loader
                 },{
                     loader: "css-loader"
+                },{
+                    loader: 'postcss-loader'
                 }, {
                     loader: "sass-loader"
                 }]
@@ -30,5 +32,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "/src/index.template.html")
         }),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name]-bundle.css',
+        })
     ]
 }
