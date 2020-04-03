@@ -8,3 +8,23 @@ body{
     width: 20px;
     transform: rotate(45deg);
 }
+
+
+.img_small{
+    width:500px;
+    height: 200px;
+    background: url(../img/4k.jpg) top right no-repeat;
+}
+
+.img_big{
+    width:500px;
+    height: 400px;
+    background: url(../img/50k.jpg) top right no-repeat;
+}
+
+
+.unused{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+}

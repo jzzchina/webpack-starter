@@ -31,9 +31,9 @@ module.exports = {
                   {
                     loader: 'url-loader',
                     options: {
-                      limit: 51200,       //Convert to base64 if the file is smaller than 50k
-                      outputPath: '../img/',
-                      name: '[name].[ext]'
+                      limit: 10 * 1024,       //Convert to base64 if the file is smaller than 10k
+                      outputPath: '/img',
+                      name: '[name].[contenthash].[ext]'
                     }
                   },
                   {
