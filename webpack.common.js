@@ -25,6 +25,27 @@ module.exports = {
                     loader: "sass-loader"
                 }]
             },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/,
+                use: [
+                  {
+                    loader: 'url-loader',
+                    options: {
+                      limit: 51200,       //Convert to base64 if the file is smaller than 50k
+                      outputPath: '../img/',
+                      name: '[name].[ext]'
+                    }
+                  },
+                  {
+                    loader: 'image-webpack-loader',
+                    options: {
+                      pngquant: {
+                        quality: '80',
+                      }
+                    }
+                  }
+                ]
+              }
         ]
     },
     plugins: [
