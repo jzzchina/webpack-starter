@@ -11,8 +11,5 @@
 # Excluding files from project
 **/dist/
 
-# package lock file
-**/package-lock.json
-
 #Ignore VS File
 /.vs/

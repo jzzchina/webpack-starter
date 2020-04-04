@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const path = require('path');
 const glob = require('glob');
-const PurifyCssWebpack = require('purifycss-webpack');
+const PurgecssPlugin = require('purgecss-webpack-plugin')
 
 module.exports = merge(common, {
     mode: 'production',
@@ -13,8 +13,8 @@ module.exports = merge(common, {
         new CleanWebpackPlugin({
             cleanAfterEveryBuildPatterns: ['dist']
         }),
-        new PurifyCssWebpack({
-            paths: glob.sync(path.join(__dirname, 'src/*.html')) // purify all unused style
+        new PurgecssPlugin({
+            paths: glob.sync(path.join(__dirname, 'src/*.html'),  { nodir: true }) // purify all unused style
         })
     ]
 })
