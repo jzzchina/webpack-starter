@@ -1,0 +1,81 @@
+import { renderHook, act } from '@testing-library/react-hooks';
+import { Provider, useAtom } from 'jotai';
+import { inputTraderSelectAtom, inputTraderGetAtom } from './yourAtomsFile'; // 替换为实际路径
+import { vi } from 'vitest';
+
+// Mock clientAtom 中的 GET 方法
+vi.mock('@share/domain/trading/state', () => ({
+  clientAtom: {
+    GET: vi.fn(),
+  },
+}));
+
+describe('inputTraderGetAtom', () => {
+  const mockGET = vi.mocked(require('@share/domain/trading/state').clientAtom.GET);
+
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
+  test('should return null if traderCode is undefined', async () => {
+    const { result } = renderHook(
+      () => {
+        const [traderCode, setTraderCode] = useAtom(inputTraderSelectAtom);
+        const traderData = useAtom(inputTraderGetAtom);
+        return { traderCode, setTraderCode, traderData };
+      },
+      { wrapper: Provider }
+    );
+
+    // traderCode 为空时，返回 null
+    expect(result.current.traderData[0]).resolves.toBeNull();
+  });
+
+  test('should fetch data correctly when traderCode is set', async () => {
+    const mockResponse = { data: { traderShortName: 'Test Trader' } };
+    mockGET.mockResolvedValue(mockResponse);
+
+    const { result } = renderHook(
+      () => {
+        const [traderCode, setTraderCode] = useAtom(inputTraderSelectAtom);
+        const traderData = useAtom(inputTraderGetAtom);
+        return { traderCode, setTraderCode, traderData };
+      },
+      { wrapper: Provider }
+    );
+
+    // 设置 traderCode
+    act(() => {
+      result.current.setTraderCode('123');
+    });
+
+    // 验证 mock GET 调用和数据返回
+    expect(mockGET).toHaveBeenCalledWith('/trader/123', {
+      params: {
+        path: { traderCode: '123' },
+      },
+    });
+    expect(result.current.traderData[0]).resolves.toBe('Test Trader');
+  });
+
+  test('should return empty string when traderCode is "001"', async () => {
+    mockGET.mockResolvedValue({ data: {} });
+
+    const { result } = renderHook(
+      () => {
+        const [traderCode, setTraderCode] = useAtom(inputTraderSelectAtom);
+        const traderData = useAtom(inputTraderGetAtom);
+        return { traderCode, setTraderCode, traderData };
+      },
+      { wrapper: Provider }
+    );
+
+    // 设置 traderCode 为 "001"
+    act(() => {
+      result.current.setTraderCode('001');
+    });
+
+    // 返回空字符串
+    expect(result.current.traderData[0]).resolves.toBe('');
+  });
+});
